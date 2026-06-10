@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Новое сообщение для {{ recipient.nickname }}</h2>
+<div class="card">
+    <div class="card-body">
+        <form method="post">
+            {{ form.hidden_tag() }}
+            {{ form.recipient_id(value=recipient.id) }}
+            <div class="form-group">
+                {{ form.body.label }}
+                {{ form.body(class="form-control", rows="5") }}
+            </div>
+            {{ form.submit(class="btn btn-primary") }}
+            <a href="{{ url_for('chat', user_id=recipient.id) }}" class="btn btn-secondary">Отмена</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

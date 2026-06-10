@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Входящие</h2>
+{% if messages %}
+    <div class="list-group">
+        {% for msg in messages %}
+            <a href="{{ url_for('chat', user_id=msg.sender.id) }}" class="list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">{{ msg.sender.nickname }}</h5>
+                    <small>{{ msg.timestamp.strftime('%d.%m.%Y %H:%M') }}</small>
+                </div>
+                <p class="mb-1">{{ msg.decrypted_body[:100] }}{% if msg.decrypted_body|length > 100 %}...{% endif %}</p>
+                {% if not msg.is_read %}
+                    <span class="badge badge-primary badge-pill">Новое</span>
+                {% endif %}
+            </a>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="alert alert-info">Нет входящих сообщений.</div>
+{% endif %}
+{% endblock %}

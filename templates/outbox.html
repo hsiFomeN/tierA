@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Исходящие</h2>
+{% if messages %}
+    <div class="list-group">
+        {% for msg in messages %}
+            <a href="{{ url_for('chat', user_id=msg.recipient.id) }}" class="list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">Кому: {{ msg.recipient.nickname }}</h5>
+                    <small>{{ msg.timestamp.strftime('%d.%m.%Y %H:%M') }}</small>
+                </div>
+                <p class="mb-1">{{ msg.decrypted_body[:100] }}{% if msg.decrypted_body|length > 100 %}...{% endif %}</p>
+                <div>
+                    {% if msg.is_read %}
+                        <span class="badge badge-success">Прочитано {{ msg.read_at.strftime('%d.%m.%Y %H:%M') }}</span>
+                    {% else %}
+                        <span class="badge badge-warning">Не прочитано</span>
+                    {% endif %}
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="alert alert-info">Нет исходящих сообщений.</div>
+{% endif %}
+{% endblock %}

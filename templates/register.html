@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-primary text-white">Регистрация</div>
+            <div class="card-body">
+                <form method="post" novalidate>
+                    {{ form.hidden_tag() }}
+                    <div class="form-group">
+                        {{ form.nickname.label }}
+                        {{ form.nickname(class="form-control") }}
+                        {% for error in form.nickname.errors %}
+                            <small class="text-danger">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group">
+                        {{ form.first_name.label }}
+                        {{ form.first_name(class="form-control") }}
+                        {% for error in form.first_name.errors %}
+                            <small class="text-danger">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group">
+                        {{ form.surname.label }}
+                        {{ form.surname(class="form-control") }}
+                        {% for error in form.surname.errors %}
+                            <small class="text-danger">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group">
+                        {{ form.email.label }}
+                        {{ form.email(class="form-control") }}
+                        {% for error in form.email.errors %}
+                            <small class="text-danger">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group">
+                        {{ form.password.label }}
+                        {{ form.password(class="form-control") }}
+                        {% for error in form.password.errors %}
+                            <small class="text-danger">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group">
+                        {{ form.password2.label }}
+                        {{ form.password2(class="form-control") }}
+                        {% for error in form.password2.errors %}
+                            <small class="text-danger">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+                    {{ form.submit(class="btn btn-primary btn-block") }}
+                </form>
+            </div>
+            <div class="card-footer text-muted">
+                Уже есть аккаунт? <a href="{{ url_for('login') }}">Войдите</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

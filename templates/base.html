@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous">
+    <title>{{ title }}</title>
+    <style>
+        .navbar-brand img {
+            height: 30px;
+            margin-right: 10px;
+        }
+        .chat-message {
+            display: flex;
+            margin-bottom: 1rem;
+        }
+        .message-sent {
+            justify-content: flex-end;
+        }
+        .message-received {
+            justify-content: flex-start;
+        }
+        .message-bubble {
+            padding: 10px 15px;
+            border-radius: 15px;
+            display: inline-block;
+            max-width: 80%;
+        }
+        .message-sent .message-bubble {
+            background-color: #dcf8c6;
+        }
+        .message-received .message-bubble {
+            background-color: #f1f0f0;
+        }
+        .message-meta {
+            font-size: 0.8em;
+            color: #777;
+        }
+        .message-status {
+            font-size: 0.75em;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url_for('index') }}">
+                <strong>{{ brand_logo }}</strong>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mr-auto">
+                    {% if current_user.is_authenticated %}
+                        <li class="nav-item"><a class="nav-link" href="{{ url_for('inbox') }}">Входящие</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url_for('outbox') }}">Исходящие</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url_for('users_list') }}">Пользователи</a></li>
+                    {% endif %}
+                </ul>
+                <ul class="navbar-nav">
+                    {% if current_user.is_authenticated %}
+                        <li class="nav-item"><span class="navbar-text mr-3">{{ current_user.nickname }}</span></li>
+                        <li class="nav-item"><a class="btn btn-outline-danger btn-sm" href="{{ url_for('logout') }}">Выйти</a></li>
+                    {% else %}
+                        <li class="nav-item"><a class="btn btn-primary mr-2" href="{{ url_for('register') }}">Регистрация</a></li>
+                        <li class="nav-item"><a class="btn btn-success" href="{{ url_for('login') }}">Войти</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main role="main" class="container mt-4">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+</main>
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+</body>
+</html>

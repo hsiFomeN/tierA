@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Чат с {{ interlocutor.nickname }}</h2>
+    <a href="{{ url_for('send_message', user_id=interlocutor.id) }}" class="btn btn-primary btn-sm">Написать</a>
+</div>
+
+<div class="card">
+    <div class="card-body" style="max-height: 70vh; overflow-y: auto;">
+        {% if messages %}
+            {% for msg in messages %}
+                <div class="chat-message {% if msg.sender_id == current_user.id %}message-sent{% else %}message-received{% endif %}">
+                    <div class="message-bubble">
+                        <div class="message-meta">
+                            <strong>{{ msg.sender.nickname }}</strong>
+                            <span class="ml-2">{{ msg.timestamp.strftime('%d.%m.%Y %H:%M') }}</span>
+                        </div>
+                        <div class="mt-1">{{ msg.decrypted_body }}</div>
+                        {% if msg.sender_id == current_user.id %}
+                            <div class="message-status">
+                                {% if msg.is_read %}
+                                    <span class="text-success">✓ Прочитано {{ msg.read_at.strftime('%d.%m.%Y %H:%M') }}</span>
+                                {% else %}
+                                    <span class="text-muted">✓ Не прочитано</span>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="text-center text-muted">Нет сообщений. Начните общение!</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
